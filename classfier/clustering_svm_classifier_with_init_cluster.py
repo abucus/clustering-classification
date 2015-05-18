@@ -17,12 +17,13 @@ class ClusteringSVMClassifierWithInitCluster(ClusteringSVMClassifier):
     '''
 
 
-    def __init__(self, numOfClusters, outputPath, numOfInitCluster, needScale = True):
+    def __init__(self, numOfClusters, outputPath, numOfInitCluster, needScale=True, kernel='linear'):
         '''
         labelList is a argument not in use here
         '''
         ClusteringSVMClassifier.__init__(self, numOfClusters, outputPath, needScale)
         self.numOfInitCluster = numOfInitCluster
+        self.kernel = kernel
         
     def fit(self, x, y):
         # Step 1 Initialize Data
@@ -77,7 +78,7 @@ class ClusteringSVMClassifierWithInitCluster(ClusteringSVMClassifier):
                     
                 # Step 2.2 generate a classifier for current cluster
                 # LR(x,y) => w
-                classifier = self._generate_classifier(clusterData, clusterLabels)
+                classifier = self._generate_classifier(clusterData, clusterLabels, self.kernel)
                 # coef = classifier.coef_[0]
                 # print "for iteration ", i, " clustering ", j, " coef:", coef
                 classifiers[j] = classifier
